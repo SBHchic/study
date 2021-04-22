@@ -1,0 +1,45 @@
+/*closing_banner*/
+.closing_banner_wrap{display:none;}
+.closing_banner_wrap{position:fixed;top:-755px;right:0;transition:all 0.3s;z-index:99999;}
+.closing_banner_wrap .bg{display:none;position:fixed;top:0;left:0;width:100%;height:100%;background-color:#000;z-index:9999;opacity:.8;filter:alpha(opacity=80)}
+.closing_banner{position:absolute;top:0;right:8px;width:550px;height:550px;background-color:rgb(243, 243, 243);z-index:10000;}
+.closing_banner img{max-width:340px;}
+.closing_banner .closing_title{text-align:center;height:55px;line-height:55px;background:#232323;}
+.closing_banner .closing_title a{display:block;color:#fff;font-size:15px;}
+.closing_banner a.close{display:block;position:absolute;top:17.5px;right:19px;margin-right:0;width:20px;height:20px;background-image: url(https://gscdn.hackers.co.kr/champ/img/common/close_btn2.png);text-indent:-3000em;font-size:0;}
+.closing_banner .top_view{text-align:center;padding:15px 0 0 15px;float:left;}
+.closing_banner .btm_view{padding:15px 15px 0 15px;overflow:hidden;}
+.closing_banner .btm_view li .list_wrap .view_img{display:block;width:100%;overflow:hidden;border-bottom:1px solid #eaeaea;}
+.closing_banner .btm_view li .list_wrap .view_name{display:block;height:38px;line-height:38px;font-size:13px;color:#424242;overflow:hidden;white-space:nowrap;text-overflow:ellipsis;text-align:center;}
+.closing_banner .btm_view li .list_wrap:hover .view_name{color:#000 !important;font-weight:600;}
+.closing_banner .btm_view li .list_wrap:hover .view_img{transition-duration:0.15s;-webkit-transition-duration:0.15s;transition-timing-function:ease-in-out;-webkit-transition-timing-function:ease-in-out;transition-delay:initial;-webkit-transition-delay:initial;transition-property:initial;-webkit-transition-property:initial;backface-visibility:hidden;-webkit-backface-visibility:hidden;box-shadow:rgba(50, 50, 50, 0.15) 0 6px 6px 0;border:none;}
+.closing_banner .closing_closetoday{display:block;clear:both;width:340px;padding:15px 0 0 15px;}
+.closing_banner input[type="checkbox"]{margin-right:5px;}
+
+/* closing-banner-area */
+.closing-banner-area .dimmed {display: none;position: fixed;top: 0;left: 0;width: 100%;height: 100%;background-color: rgba(1,1,1, 0.7);z-index: 9999;}
+.closing-banner-wrap {position: fixed;top:-100%;right:0;transition: all 0.3s;z-index: 100000;} 
+.closing-banner {background-color: rgb(243, 243, 243);box-shadow: -2px 4px 14px 3px #2e2e2e5e;z-index: 10000;}
+.closing-banner-wrap .cookies {clear:both;position:absolute;left:0;bottom:0;width:100%;padding:5px 14px 14px;background:#252525;box-sizing:border-box;} 
+.closing-banner-wrap .cookies *{color:#fff;}
+.closing-banner-wrap .cookies .closing-panel {display: inline-block;font-size:12px;color: #000;letter-spacing:-1.2px;margin: 0 15px 0 0;}
+.closing-banner-wrap .cookies .closing-panel:last-child{margin-right:0;}
+.closing-banner-wrap .closing-banner.horizontal {position:relative;width:565px;height:565px;} 
+.closing-banner-wrap .closing-banner.vertical {width:390px; height:790px;}
+.closing-banner .closing-title {text-align: center;height: 50px;line-height: 48px;background: #232323;color: #ffffff;position: relative;visibility: visible;z-index: 1;} 
+.closing-banner .closing-title a {display: block;margin:0 40px;color: #fff;font-size: 15px;}
+.closing-banner a.close {display: block;position: absolute;top: 12.5px;right: 19px;margin-right: 0;width: 20px;height: 20px;background-image: url(https://gscdn.hackers.co.kr/champ/img/common/close_btn2.png);text-indent: -3000em;font-size: 0;z-index: 1;}
+.closing-banner .top-view {text-align: center;margin: 15px 15px 0;} 
+.closing-banner .top-view img{width:354px; height:440px;transition-duration: 0.15s;transition-timing-function: ease-in-out;border: 1px solid #f3f3f3;box-sizing: border-box;vertical-align:top;}
+.closing-banner-wrap .horizontal .top-view {float: left;}
+.closing-banner-wrap .bottom-view img{width:100%;height:167px;vertical-align:top;}
+.closing-banner-wrap .horizontal .bottom-view {padding: 15px 0;float: left;}
+.closing-banner-wrap .vertical .bottom-view {padding: 15px 19px;}
+.closing-banner-wrap .horizontal .bottom-view li {margin-bottom:20px;}
+.closing-banner-wrap .horizontal .bottom-view li:last-child{margin-bottom:0;}
+.closing-banner-wrap .vertical .bottom-view li {display: inline-block;}
+.closing-banner .bottom-view li:last-child {float: right;}
+.closing-banner .bottom-view li .list-wrap .view-img {display: inline-block;width: 169px; height:208px;background-color: #fff;text-align: center;cursor: pointer;transition-duration: 0.15s;transition-timing-function: ease-in-out;overflow: hidden;border: 1px solid #eaeaea;box-sizing: border-box;}
+.closing-banner .bottom-view li .list-wrap .view-name {display: block;height: 38px;line-height: 38px;font-size: 13px;color: #424242;overflow: hidden;white-space: nowrap;text-align: center;border-top:1px solid #e8e8e8;} 
+.closing-banner .bottom-view li .list-wrap:hover .view-name {color: #000 !important;font-weight: 600;}
+.closing-banner .bottom-view li .list-wrap:hover .view-img, .closing-banner .top-view:hover img {transition-duration: 0.15s;-webkit-transition-duration: 0.15s;transition-timing-function: ease-in-out;-webkit-transition-timing-function: ease-in-out;transition-delay: initial;-webkit-transition-delay: initial;transition-property: initial;-webkit-transition-property: initial;backface-visibility: hidden;-webkit-backface-visibility: hidden;box-shadow: rgba(50, 50, 50, 0.6) 0 0 12px 0;border: none;}
