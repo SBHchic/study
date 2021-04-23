@@ -84,3 +84,10 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
         document.querySelector('.con_qz_' + (--current_idx)).style.display='block';
     });
 });
+
+// 결과 확인하기 버튼 구현
+let answer_check = document.querySelectorAll('.answer_check');
+answer_check[answer_check.length -1].addEventListener('click', function(){
+    document.querySelector('.con_qz_12').style.display = 'none';
+    document.querySelector('.con_login').style.display = 'block';
+});
