@@ -1,4 +1,4 @@
-
+var total_select_answer = []; // 선택된 값을 넣고 정답과 비교하는 배열
 
 // main에서 퀴즈 섹션으로 넘어가는 메서드
 document.querySelector('#btn_quiz_start').addEventListener('click', function(){
@@ -22,7 +22,11 @@ document.querySelector('#btn_quiz_start').addEventListener('click', function(){
 
 //         // 선택한 값이 정답인지 아닌지 저장하는 배열에 값 넣기
 //         document.querySelectorAll('input[type=radio][name=qz' + current_idx + ']:checked').forEach(function(Node2){
-//             if (Node2.value == quiz_str[current_idx-1].answer_que){
+
+//             // 선택된 값을 선택 배열에 넣기
+//             total_select_answer[current_idx - 1] = Node2.value;
+
+//             if (total_select_answer[current_idx - 1] == quiz_str[current_idx-1].answer_que){
 //                 test_result[current_idx-1] = true;
 //                 // 정답이라면 그 점수만큼 더하기
 //                 result_score += quiz_str[current_idx - 1].score;
@@ -58,8 +62,11 @@ for (let i = 0; i < next.length; i++){
             return false;
         }
 
+        // 선택한 것을 선택 배열에 넣기
+        total_select_answer[current_idx - 1] = checked[0].value;
+
         // 선택한 값이 정답인지 아닌지 저장하는 배열에 값 넣기
-        if (checked[0].value == quiz_str[current_idx -1].answer_que){
+        if (total_select_answer[current_idx - 1] == quiz_str[current_idx -1].answer_que){
             test_result[current_idx -1] = true;
             // 정답이라면 그 점수만큼 더하기
             result_score += quiz_str[current_idx - 1].score;
