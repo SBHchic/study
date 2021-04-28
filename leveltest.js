@@ -264,7 +264,15 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
 let answer_check = document.querySelectorAll('.answer_check');
 answer_check[answer_check.length -1].addEventListener('click', function(){
     document.querySelector('.con_qz_12').style.display = 'none';
-    document.querySelector('.con_login').style.display = 'block';
+    document.querySelector('.result').style.display = 'block';
+    for (let i = 0; i < total_select_answer.length; i++){
+        test_result[i] = quiz_str[i].answer_que == total_select_answer[i];
+        result_score += (test_result[i] ? quiz_str[i].score : 0);
+    }
+    let check = document.querySelectorAll('.ans_result .mb80 tbody tr')
+    for (let i = 0; i < check.length; i++){
+        test_result[i] ? check[i].querySelector('td').className = 'check_o' : check[i].querySelector('td').className = 'check_x'
+    }
 });
 
 
