@@ -1,4 +1,7 @@
 var total_select_answer = []; // 선택된 값을 넣고 정답과 비교하는 배열
+let set = new Set(); // 8~9번에서 사용함
+let select_tmp8 = []; // 뒤로가기를 대비
+let select_tmp9 = []; // 뒤로가기를 대비
 
 // main에서 퀴즈 섹션으로 넘어가는 메서드
 document.querySelector('#btn_quiz_start').addEventListener('click', function(){
@@ -6,11 +9,42 @@ document.querySelector('#btn_quiz_start').addEventListener('click', function(){
     document.querySelector('.con_qz_1').style.display = 'block';
 });
 
+// let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
+//             for (let i = 0; i < select_answercheck.length; i++){
+//                 // 선택지를 클릭했을 때
+//                 select_answercheck[i].addEventListener('click', function() {
+
+//                     // 부모 클래스가 on 이라면 (이미 선택되어 있다면)
+//                     if (this.parentNode.className == 'on'){
+//                         this.parentNode.className = '';
+//                         set.delete(this.text);
+//                     } else { // 부모클래스가 on이 아니라면(선택이 안되어 있다면)
+//                         this.parentNode.className += 'on';
+//                         set.add(this.text);
+//                     }
+//                 })
+//             }
+
+// 1번문제에서만 되는 이유? - current_idx를 쓰는 순간 컴파일이 되서 저장이 된 상태이기 때문 -> current_idx 삭제
+document.querySelectorAll('.answer_check').forEach(function(Node1){
+    Node1.addEventListener('click', function(){
+        // 부모 클래스가 on 이라면 (이미 선택되어 있다면)
+        if (Node1.parentNode.className == 'on'){
+            Node1.parentNode.className = '';
+            set.delete(Node1.text);
+        } else { // 부모클래스가 on이 아니라면(선택이 안되어 있다면)
+            Node1.parentNode.className += 'on';
+            set.add(Node1.text);
+        }
+    })
+})
+
 // 다음 버튼
-// explore에서는 돌아가지 않는 문법 (돌아감)
+// explore에서는 돌아가지 않는 문법 (querySelectorAll - explore에서는 NodeList로 인식해서 forEach메서드가 존재하지 않음)
 document.querySelectorAll('.btn_next')
 .forEach(function(Node1){
     Node1.addEventListener('click', function(){
+
         // let status = false;
         // document.querySelectorAll('input[type=radio][name=qz' + current_idx + ']').forEach(function(Node2){
         //     status = Node2.checked || status;
@@ -49,37 +83,58 @@ document.querySelectorAll('.btn_next')
         } else if (8 <=current_idx && current_idx < 10){ // current_idx가 8~9일 때 동작
 
             // 5개 선택지 이므로 5개 전부 체크가 되지 않았다면 넘어가지 못함
-            let checked = document.querySelectorAll('input[type=radio][name=qz'+current_idx+']:checked');
-            if (checked.length !== 5){
+            if (set.size !== 5){
                 alert('질문에 답해주세요.');
                 return false;
             }
 
-            // 배열로 저장되어있는 select_answer를 정답 배열에 넣음
+            // set을 배열으로 destructuring 하여 배열에 넣음
+            if (current_idx === 8){
+                select_tmp8 = [...set];
+            } else if (current_idx === 9){
+                select_tmp9 = [...set];
+            }
+            select_answer = [...set];
             total_select_answer[current_idx - 1] = select_answer;
+            
         }
 
         // 페이지 바뀜
         document.querySelector('.con_qz_' + current_idx).style.display='none';
         document.querySelector('.con_qz_' + (++current_idx)).style.display='block';
+        set.clear();
+
+        // 임시 저장했던걸 들고옴
+        if (current_idx === 8 && !!select_tmp8){
+            for (let i = 0; i < select_tmp8.length; i++){
+                set.add(select_tmp8[i]);
+            }
+        } else if (current_idx === 9 && !!select_tmp9){
+            for (let i = 0; i < select_tmp9.length; i++){
+                set.add(select_tmp9[i]);
+            }
+        }
+        
 
         // current_idx가 8~9에서 선택지를 클릭 했을 때 버튼 클래스를 바꿔주면서 선택 배열에 넣고, 그 글자가 화면에 나와야 함
 
-        if (8 <= current_idx && current_idx < 10){
-            let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
-            for (var i = 0; i < select_answercheck.length; i++){
-                // 선택지를 클릭했을 때
-                select_answercheck[i].addEventListener('click', function() {
+        // if (8 <= current_idx && current_idx < 10){
+        //     let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
+        //     for (let i = 0; i < select_answercheck.length; i++){
+        //         // 선택지를 클릭했을 때
+        //         select_answercheck[i].addEventListener('click', function() {
 
-                    // 부모 클래스가 on 이라면 (이미 선택되어 있다면)
-                    if (this.parentNode.className == 'on'){
-                        this.parentNode.className = '';
-                    } else { // 부모클래스가 on이 아니라면(선택이 안되어 있다면)
-                        this.parentNode.className += 'on';
-                    }
-                })
-            }
-        }
+        //             // 부모 클래스가 on 이라면 (이미 선택되어 있다면)
+        //             if (this.parentNode.className == 'on'){
+        //                 this.parentNode.className = '';
+        //                 set.delete(this.text);
+        //             } else { // 부모클래스가 on이 아니라면(선택이 안되어 있다면)
+        //                 this.parentNode.className += 'on';
+        //                 set.add(this.text);
+        //             }
+        //         })
+        //     }
+        // }
     });
 });
 
@@ -132,8 +187,46 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
         // if (test_result[current_idx - 2]){
         //     result_score -= quiz_str[current_idx - 2].score;
         // }
+
+        // 8, 9번의 경우 임시저장
+        if (current_idx === 9){
+            select_tmp9 = [...set];
+        } else if (current_idx === 8){
+            select_tmp8 = [...set];
+        }
+
         document.querySelector('.con_qz_' + current_idx).style.display='none';
         document.querySelector('.con_qz_' + (--current_idx)).style.display='block';
+
+        set.clear();
+
+        // 임시 저장했던걸 들고옴
+        if (current_idx === 8 && !!select_tmp8){
+            for (let i = 0; i < select_tmp8.length; i++){
+                set.add(select_tmp8[i]);
+            }
+        } else if (current_idx === 9 && !!select_tmp9){
+            for (let i = 0; i < select_tmp9.length; i++){
+                set.add(select_tmp9[i]);
+            }
+        }
+
+        //     let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
+        //     for (let i = 0; i < select_answercheck.length; i++){
+        //         // 선택지를 클릭했을 때
+        //         select_answercheck[i].addEventListener('click', function() {
+
+        //             // 부모 클래스가 on 이라면 (이미 선택되어 있다면)
+        //             if (this.parentNode.className == 'on'){
+        //                 this.parentNode.className = '';
+        //                 set.delete(this.text);
+        //             } else { // 부모클래스가 on이 아니라면(선택이 안되어 있다면)
+        //                 this.parentNode.className += 'on';
+        //                 set.add(this.text);
+        //             }
+        //         })
+        //     }
+        // }
     });
 });
 
