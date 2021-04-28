@@ -48,6 +48,15 @@ document.querySelectorAll('.btn_next')
 
         } else if (8 <=current_idx && current_idx < 10){ // current_idx가 8~9일 때 동작
 
+            // 5개 선택지 이므로 5개 전부 체크가 되지 않았다면 넘어가지 못함
+            let checked = document.querySelectorAll('input[type=radio][name=qz'+current_idx+']:checked');
+            if (checked.length !== 5){
+                alert('질문에 답해주세요.');
+                return false;
+            }
+
+            // 배열로 저장되어있는 select_answer를 정답 배열에 넣음
+            total_select_answer[current_idx - 1] = select_answer;
         }
 
         // 페이지 바뀜
