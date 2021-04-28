@@ -36,6 +36,16 @@ document.querySelectorAll('.answer_check').forEach(function(Node1){
             Node1.parentNode.className += 'on';
             set.add(Node1.text);
         }
+
+        // set에 들어있는 것들을 라인에 출력
+        document.querySelectorAll('.show_seq').forEach(function(Node2){
+            Node2.innerText = [...set].toString().replaceAll(',', ' ');
+        })
+
+        // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
+        document.querySelectorAll('.txt').forEach(function(Node2){
+            !!set.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
+        })
     })
 })
 
@@ -114,6 +124,16 @@ document.querySelectorAll('.btn_next')
                 set.add(select_tmp9[i]);
             }
         }
+
+        // set에 들어있는 것들을 라인에 출력
+        document.querySelectorAll('.show_seq').forEach(function(Node2){
+            Node2.innerText = [...set].toString().replaceAll(',', ' ');
+        })
+
+        // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
+        document.querySelectorAll('.txt').forEach(function(Node2){
+            !!set.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
+        })
         
 
         // current_idx가 8~9에서 선택지를 클릭 했을 때 버튼 클래스를 바꿔주면서 선택 배열에 넣고, 그 글자가 화면에 나와야 함
@@ -210,6 +230,16 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
                 set.add(select_tmp9[i]);
             }
         }
+
+        // set에 들어있는 것들을 라인에 출력
+        document.querySelectorAll('.show_seq').forEach(function(Node2){
+            Node2.innerText = [...set].toString().replaceAll(',', ' ');
+        })
+
+        // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
+        document.querySelectorAll('.txt').forEach(function(Node2){
+            !!set.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
+        })
 
         //     let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
         //     for (let i = 0; i < select_answercheck.length; i++){
