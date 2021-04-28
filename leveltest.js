@@ -62,6 +62,24 @@ document.querySelectorAll('.btn_next')
         // 페이지 바뀜
         document.querySelector('.con_qz_' + current_idx).style.display='none';
         document.querySelector('.con_qz_' + (++current_idx)).style.display='block';
+
+        // current_idx가 8~9에서 선택지를 클릭 했을 때 버튼 클래스를 바꿔주면서 선택 배열에 넣고, 그 글자가 화면에 나와야 함
+
+        if (8 <= current_idx && current_idx < 10){
+            let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
+            for (var i = 0; i < select_answercheck.length; i++){
+                // 선택지를 클릭했을 때
+                select_answercheck[i].addEventListener('click', function() {
+
+                    // 부모 클래스가 on 이라면 (이미 선택되어 있다면)
+                    if (this.parentNode.className == 'on'){
+                        this.parentNode.className = '';
+                    } else { // 부모클래스가 on이 아니라면(선택이 안되어 있다면)
+                        this.parentNode.className += 'on';
+                    }
+                })
+            }
+        }
     });
 });
 
