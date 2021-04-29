@@ -1,7 +1,10 @@
 var total_select_answer = []; // 선택된 값을 넣고 정답과 비교하는 배열
-let set = new Set(); // 8~9번에서 사용함
-let select_tmp8 = []; // 뒤로가기를 대비
-let select_tmp9 = []; // 뒤로가기를 대비
+// let set = new Set(); // 8~9번에서 사용함
+let select_tmpkey8 = []; // 뒤로가기를 대비
+let select_tmpvalue8 = []; // 뒤로가기를 대비
+let select_tmpkey9 = []; // 뒤로가기를 대비
+let select_tmpvalue9 = []; // 뒤로가기를 대비
+let map = new Map(); // map에서 set으로 변경
 
 // main에서 퀴즈 섹션으로 넘어가는 메서드
 document.querySelector('#btn_quiz_start').addEventListener('click', function(){
@@ -31,20 +34,21 @@ document.querySelectorAll('.answer_check').forEach(function(Node1){
         // 부모 클래스가 on 이라면 (이미 선택되어 있다면)
         if (Node1.parentNode.className == 'on'){
             Node1.parentNode.className = '';
-            set.delete(Node1.text);
+            // set.delete(Node1.text);
+            map.delete(Node1.dataset.no);
         } else { // 부모클래스가 on이 아니라면(선택이 안되어 있다면)
             Node1.parentNode.className += 'on';
-            set.add(Node1.text);
+            map.set(Node1.dataset.no, Node1.text);
         }
 
         // set에 들어있는 것들을 라인에 출력
         document.querySelectorAll('.show_seq').forEach(function(Node2){
-            Node2.innerText = [...set].toString().replaceAll(',', ' ');
+            Node2.innerText = [...map.values()].toString().replaceAll(',', ' ');
         })
 
         // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
         document.querySelectorAll('.txt').forEach(function(Node2){
-            !!set.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
+            !!map.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
         })
     })
 })
@@ -93,18 +97,20 @@ document.querySelectorAll('.btn_next')
         } else if (8 <=current_idx && current_idx < 10){ // current_idx가 8~9일 때 동작
 
             // 5개 선택지 이므로 5개 전부 체크가 되지 않았다면 넘어가지 못함
-            if (set.size !== 5){
+            if (map.size !== 5){
                 alert('질문에 답해주세요.');
                 return false;
             }
 
             // set을 배열으로 destructuring 하여 배열에 넣음
             if (current_idx === 8){
-                select_tmp8 = [...set];
+                select_tmpkey8 = [...map.keys()];
+                select_tmpvalue8 = [...map.values()];
             } else if (current_idx === 9){
-                select_tmp9 = [...set];
+                select_tmpkey9 = [...map.keys()];
+                select_tmpvalue9 = [...map.values()];
             }
-            select_answer = [...set];
+            select_answer = [...map.keys()];
             total_select_answer[current_idx - 1] = select_answer;
             
         }
@@ -112,27 +118,27 @@ document.querySelectorAll('.btn_next')
         // 페이지 바뀜
         document.querySelector('.con_qz_' + current_idx).style.display='none';
         document.querySelector('.con_qz_' + (++current_idx)).style.display='block';
-        set.clear();
+        map.clear();
 
         // 임시 저장했던걸 들고옴
-        if (current_idx === 8 && !!select_tmp8){
-            for (let i = 0; i < select_tmp8.length; i++){
-                set.add(select_tmp8[i]);
+        if (current_idx === 8 && !!select_tmpkey8){
+            for (let i = 0; i < select_tmpkey8.length; i++){
+                map.set(select_tmpkey8[i], select_tmpvalue8[i]);
             }
-        } else if (current_idx === 9 && !!select_tmp9){
-            for (let i = 0; i < select_tmp9.length; i++){
-                set.add(select_tmp9[i]);
+        } else if (current_idx === 9 && !!select_tmpkey9){
+            for (let i = 0; i < select_tmpkey9.length; i++){
+                map.set(select_tmpkey9[i], select_tmpvalue9);
             }
         }
 
         // set에 들어있는 것들을 라인에 출력
         document.querySelectorAll('.show_seq').forEach(function(Node2){
-            Node2.innerText = [...set].toString().replaceAll(',', ' ');
+            Node2.innerText = [...map.values()].toString().replaceAll(',', ' ');
         })
 
         // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
         document.querySelectorAll('.txt').forEach(function(Node2){
-            !!set.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
+            !!map.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
         })
         
 
@@ -210,9 +216,11 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
 
         // 8, 9번의 경우 임시저장
         if (current_idx === 9){
-            select_tmp9 = [...set];
+            select_tmpkey9 = [...map.keys()];
+            select_tmpvalue9 = [...map.values()];
         } else if (current_idx === 8){
-            select_tmp8 = [...set];
+            select_tmpkey8 = [...map.keys()];
+            select_tmpvalue8 = [...map.values()];
         }
 
         document.querySelector('.con_qz_' + current_idx).style.display='none';
@@ -221,24 +229,24 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
         set.clear();
 
         // 임시 저장했던걸 들고옴
-        if (current_idx === 8 && !!select_tmp8){
-            for (let i = 0; i < select_tmp8.length; i++){
-                set.add(select_tmp8[i]);
+        if (current_idx === 8 && !!select_tmpkey8){
+            for (let i = 0; i < select_tmpkey8.length; i++){
+                map.set(select_tmpkey8[i], select_tmpvalue8[i]);
             }
-        } else if (current_idx === 9 && !!select_tmp9){
-            for (let i = 0; i < select_tmp9.length; i++){
-                set.add(select_tmp9[i]);
+        } else if (current_idx === 9 && !!select_tmpkey9){
+            for (let i = 0; i < select_tmpkey9.length; i++){
+                map.set(select_tmpkey9[i], select_tmpvalue9[i]);
             }
         }
 
         // set에 들어있는 것들을 라인에 출력
         document.querySelectorAll('.show_seq').forEach(function(Node2){
-            Node2.innerText = [...set].toString().replaceAll(',', ' ');
+            Node2.innerText = [...map.values()].toString().replaceAll(',', ' ');
         })
 
         // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
         document.querySelectorAll('.txt').forEach(function(Node2){
-            !!set.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
+            !!map.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
         })
 
         //     let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
@@ -266,15 +274,33 @@ answer_check[answer_check.length -1].addEventListener('click', function(){
     document.querySelector('.con_qz_12').style.display = 'none';
     document.querySelector('.result').style.display = 'block';
     for (let i = 0; i < total_select_answer.length; i++){
-        test_result[i] = quiz_str[i].answer_que == total_select_answer[i];
+        test_result[i] = quiz_str[i].answer_que == total_select_answer[i].toString();
         result_score += (test_result[i] ? quiz_str[i].score : 0);
     }
+
+    document.querySelector('.re_score span').innerText = result_score*2;
+    document.querySelector('.re_level img').src = "https://gscdn.hackers.co.kr/champ/img/chobo/event/2016/16120101/v2/renew/v11/level_"+ getLevel(result_score) +".jpg";
+
+    let recommend = document.querySelector('#reccommend_lec'+getLevel(result_score)).children;
+    for (let i = 0; i < recommend.length; i++){
+        recomment[i].style.display = 'block';
+    }
+
+    // 번호에 정답 유무 체크
     let check = document.querySelectorAll('.ans_result .mb80 tbody tr')
     for (let i = 0; i < check.length; i++){
-        test_result[i] ? check[i].querySelector('td').className = 'check_o' : check[i].querySelector('td').className = 'check_x'
+        test_result[i] ? check[i].querySelector('td').className = 'check_o' : check[i].querySelector('td').className = 'check_x';
     }
 });
 
 
 
 // 메서드 빼오기 refactoring
+function getLevel(score){
+    switch(score / 20){
+        case 5:
+            return 5;
+        default:
+            return parseInt(score / 20 + 1);
+    }
+}
