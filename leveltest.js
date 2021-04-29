@@ -279,17 +279,17 @@ answer_check[answer_check.length -1].addEventListener('click', function(){
     }
 
     document.querySelector('.re_score span').innerText = result_score*2;
-    document.querySelector('.re_level img').src = "https://gscdn.hackers.co.kr/champ/img/chobo/event/2016/16120101/v2/renew/v11/level_"+ getLevel(result_score) +".jpg";
+    document.querySelector('.re_level img').src = "https://gscdn.hackers.co.kr/champ/img/chobo/event/2016/16120101/v2/renew/v11/level_"+ getLevel(result_score*2) +".jpg";
 
-    let recommend = document.querySelector('#reccommend_lec'+getLevel(result_score)).children;
+    let recommend = document.querySelector('#reccommend_lec'+getLevel(result_score*2)).children;
     for (let i = 0; i < recommend.length; i++){
-        recomment[i].style.display = 'block';
+        recommend[i].style.display = 'block';
     }
 
     // 번호에 정답 유무 체크
-    let check = document.querySelectorAll('.ans_result .mb80 tbody tr')
+    let check = document.querySelectorAll('.ans_result .inner .mb80 tbody tr');
     for (let i = 0; i < check.length; i++){
-        test_result[i] ? check[i].querySelector('td').className = 'check_o' : check[i].querySelector('td').className = 'check_x';
+        test_result[i] ? check[i].firstElementChild.className = 'check_o' : check[i].firstElementChild.className = 'check_x';
     }
 });
 
