@@ -5,11 +5,16 @@ let select_tmpvalue8 = []; // 뒤로가기를 대비
 let select_tmpkey9 = []; // 뒤로가기를 대비
 let select_tmpvalue9 = []; // 뒤로가기를 대비
 let map = new Map(); // map에서 set으로 변경
+let minute = 0;
+let second = 0;
 
 // main에서 퀴즈 섹션으로 넘어가는 메서드
 document.querySelector('#btn_quiz_start').addEventListener('click', function(){
     document.querySelector('.main').style.display = 'none';
     document.querySelector('.con_qz_1').style.display = 'block';
+    document.querySelector('#q_timer').style.display = 'block';
+    // 타이머 시작
+    setInterval('timer()', 1000);
 });
 
 // let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
@@ -303,4 +308,14 @@ function getLevel(score){
         default:
             return parseInt(score / 20 + 1);
     }
+}
+
+// 타이머 함수
+function timer(){
+    ++second;
+    if (second % 60 == 0){
+        second = 0;
+        ++minute;
+    }
+    return document.querySelector('#q_timer_text').innerText = (minute < 10 ? '0' + minute : minute) + ':' + (second < 10 ? '0' + second : second);
 }
