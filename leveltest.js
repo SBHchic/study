@@ -47,12 +47,12 @@ document.querySelectorAll('.answer_check').forEach(function(Node1){
             map.set(Node1.dataset.no, Node1.text);
         }
 
-        // set에 들어있는 것들을 라인에 출력
+        // map에 들어있는 것들을 라인에 출력
         document.querySelectorAll('.show_seq').forEach(function(Node2){
             Node2.innerText = [...map.values()].toString().replaceAll(',', ' ');
         })
 
-        // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
+        // map안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
         document.querySelectorAll('.txt').forEach(function(Node2){
             !!map.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
         })
@@ -122,8 +122,12 @@ document.querySelectorAll('.btn_next')
         }
 
         // 페이지 바뀜
-        document.querySelector('.con_qz_' + current_idx).style.display='none';
-        document.querySelector('.con_qz_' + (++current_idx)).style.display='block';
+        // document.querySelector('.con_qz_' + current_idx).style.display='none';
+        // document.querySelector('.con_qz_' + (++current_idx)).style.display='block';
+
+        // 페이지 바뀌는 부분 메서드로 따로 뺌 (리팩토링)
+        pageUpDown(1);
+
         map.clear();
 
         // 퀴즈가 끝나면 시간을 멈춤 (설문에서 뒤로갔을 때 타이머를 다시 진행시킬지 고민해야함)
@@ -142,12 +146,12 @@ document.querySelectorAll('.btn_next')
             }
         }
 
-        // set에 들어있는 것들을 라인에 출력
+        // map에 들어있는 것들을 라인에 출력
         document.querySelectorAll('.show_seq').forEach(function(Node2){
             Node2.innerText = [...map.values()].toString().replaceAll(',', ' ');
         })
 
-        // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
+        // map안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
         document.querySelectorAll('.txt').forEach(function(Node2){
             !!map.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
         })
@@ -238,8 +242,11 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
             timerId = setInterval('timer()', 1000);
         }
 
-        document.querySelector('.con_qz_' + current_idx).style.display='none';
-        document.querySelector('.con_qz_' + (--current_idx)).style.display='block';
+        // document.querySelector('.con_qz_' + current_idx).style.display='none';
+        // document.querySelector('.con_qz_' + (--current_idx)).style.display='block';
+        
+        // 페이지 다운 리팩토링
+        pageUpDown(0);
 
         set.clear();
 
@@ -254,12 +261,12 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
             }
         }
 
-        // set에 들어있는 것들을 라인에 출력
+        // map에 들어있는 것들을 라인에 출력
         document.querySelectorAll('.show_seq').forEach(function(Node2){
             Node2.innerText = [...map.values()].toString().replaceAll(',', ' ');
         })
 
-        // set안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
+        // map안에 요소가 있는지의 여부에 따라 placeholder 느낌의 텍스트 변환
         document.querySelectorAll('.txt').forEach(function(Node2){
             !!map.size ? Node2.style.display = 'none' : Node2.style.display = 'block';
         })
@@ -339,10 +346,22 @@ function timer(){
     return document.getElementById('q_timer_text').innerText = (minute < 10 ? '0' + minute : minute) + ':' + (second < 10 ? '0' + second : second);
 }
 
+// 시간 결과 사진 출력 함수
 function selectTime(minute){
     if (minute / 2 <= 3) {
         return minute / 2 + 1;
     } else {
         return 4;
+    }
+}
+
+// page up, down 메서드
+function pageUpDown(boolean){
+    if (!!boolean) { // 페이지 up (++current_idx)
+        document.querySelector('.con_qz_' + current_idx).style.display='none';
+        document.querySelector('.con_qz_' + (++current_idx)).style.display='block';
+    } else { // 페이지 down (--current_idx)
+        document.querySelector('.con_qz_' + current_idx).style.display='none';
+        document.querySelector('.con_qz_' + (--current_idx)).style.display='block';
     }
 }
