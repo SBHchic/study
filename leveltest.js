@@ -7,14 +7,15 @@ let select_tmpvalue9 = []; // 뒤로가기를 대비
 let map = new Map(); // map에서 set으로 변경
 let minute = 0;
 let second = 0;
+let timerId; // 타이머 종료를 위한 변수 설정
 
 // main에서 퀴즈 섹션으로 넘어가는 메서드
-document.querySelector('#btn_quiz_start').addEventListener('click', function(){
+document.getElementById('btn_quiz_start').addEventListener('click', function(){
     document.querySelector('.main').style.display = 'none';
     document.querySelector('.con_qz_1').style.display = 'block';
-    document.querySelector('#q_timer').style.display = 'block';
+    document.getElementById('q_timer').style.display = 'block';
     // 타이머 시작
-    setInterval('timer()', 1000);
+    timerId = setInterval('timer()', 1000);
 });
 
 // let select_answercheck = document.querySelectorAll('.con_qz_' + current_idx + ' .answer_check');
@@ -125,6 +126,11 @@ document.querySelectorAll('.btn_next')
         document.querySelector('.con_qz_' + (++current_idx)).style.display='block';
         map.clear();
 
+        // 퀴즈가 끝나면 시간을 멈춤 (설문에서 뒤로갔을 때 타이머를 다시 진행시킬지 고민해야함)
+        if (current_idx == 11){
+            clearInterval(timerId);
+        }
+
         // 임시 저장했던걸 들고옴
         if (current_idx === 8 && !!select_tmpkey8){
             for (let i = 0; i < select_tmpkey8.length; i++){
@@ -226,6 +232,10 @@ document.querySelectorAll('.btn_prev').forEach(function(o){
         } else if (current_idx === 8){
             select_tmpkey8 = [...map.keys()];
             select_tmpvalue8 = [...map.values()];
+
+            // 다시 퀴즈쪽으로 돌아간다면 타이머 다시 진행
+        } else if (current_idx === 11){
+            timerId = setInterval('timer()', 1000);
         }
 
         document.querySelector('.con_qz_' + current_idx).style.display='none';
@@ -278,6 +288,10 @@ let answer_check = document.querySelectorAll('.answer_check');
 answer_check[answer_check.length -1].addEventListener('click', function(){
     document.querySelector('.con_qz_12').style.display = 'none';
     document.querySelector('.result').style.display = 'block';
+    
+    // 타이머 안보이도록
+    document.getElementById('q_timer').style.display = 'none';
+
     for (let i = 0; i < total_select_answer.length; i++){
         test_result[i] = quiz_str[i].answer_que == total_select_answer[i].toString();
         result_score += (test_result[i] ? quiz_str[i].score : 0);
@@ -286,7 +300,12 @@ answer_check[answer_check.length -1].addEventListener('click', function(){
     document.querySelector('.re_score span').innerText = result_score*2;
     document.querySelector('.re_level img').src = "https://gscdn.hackers.co.kr/champ/img/chobo/event/2016/16120101/v2/renew/v11/level_"+ getLevel(result_score*2) +".jpg";
 
-    let recommend = document.querySelector('#reccommend_lec'+getLevel(result_score*2)).children;
+    // 문제 풀이 시간
+    document.querySelector('.re_time p strong').innerText = minute + '분 ' + second + '초 소요';
+    document.querySelector('.re_time img').src = "https://gscdn.hackers.co.kr/champ/img/chobo/event/2016/16120101/v2/renew/v11/time_" + selectTime(minute) + ".jpg"
+
+    // 추천 강의 표시
+    let recommend = document.getElementById('reccommend_lec'+getLevel(result_score*2)).children;
     for (let i = 0; i < recommend.length; i++){
         recommend[i].style.display = 'block';
     }
@@ -317,5 +336,13 @@ function timer(){
         second = 0;
         ++minute;
     }
-    return document.querySelector('#q_timer_text').innerText = (minute < 10 ? '0' + minute : minute) + ':' + (second < 10 ? '0' + second : second);
+    return document.getElementById('q_timer_text').innerText = (minute < 10 ? '0' + minute : minute) + ':' + (second < 10 ? '0' + second : second);
+}
+
+function selectTime(minute){
+    if (minute / 2 <= 3) {
+        return minute / 2 + 1;
+    } else {
+        return 4;
+    }
 }
